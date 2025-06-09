@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "985169580117",
+    "project_id": "my-trip-list",
+    "storage_bucket": "my-trip-list.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985169580117:android:0a89f39412a59d7f06c4dc",
+        "android_client_info": {
+          "package_name": "ir.shariaty.mytriplist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVVkHIB-7DE4r3ND9u8zfXByTon8Dko4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
