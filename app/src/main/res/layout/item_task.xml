@@ -1,39 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
-    android:padding="16dp"
-    tools:context=".ToDoListAdapter">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <!-- Task Title -->
+        <!-- عنوان سفر -->
         <TextView
-            android:id="@+id/task_title"
-            android:layout_width="match_parent"
+            android:id="@+id/taskTitleText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task Title"
-            android:textSize="18sp"
+            android:text="Trip Title"
             android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Task Due Date -->
+        <!-- تاریخ -->
         <TextView
-            android:id="@+id/task_due_date"
+            android:id="@+id/taskDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start - End"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/taskTitleText" />
+
+        <!-- دکمه‌ها -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Due Date"
-            android:textSize="14sp"
-            android:textColor="#757575"
-            android:layout_marginTop="8dp"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/taskDateText">
 
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:backgroundTint="@color/pink"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/pink"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

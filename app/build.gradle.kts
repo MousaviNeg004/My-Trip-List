@@ -3,6 +3,7 @@ plugins {
     id("com.google.gms.google-services") // فعال‌سازی پلاگین Google Services
 }
 
+
 android {
     namespace = "ir.shariaty.mytriplist"
     compileSdk = 35
@@ -43,8 +44,25 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.espresso:espresso-core:3.4.0")
 
+
     // Firebase dependencies
-    implementation("com.google.firebase:firebase-auth:19.3.0")  // نسخه قدیمی‌تر Firebase Authentication
-    implementation("com.google.firebase:firebase-firestore:21.4.0")  // نسخه قدیمی‌تر Firebase Firestore
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:19.5.1")  // نسخه قدیمی‌تر Firebase Realtime Database
+    implementation("com.google.firebase:firebase-auth:21.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-firestore:24.1.1")
+    implementation("com.google.firebase:firebase-storage:20.0.0")
+    implementation ("com.google.firebase:firebase-messaging:23.1.1") // برای Firebase Cloud Messaging
+    implementation ("com.google.firebase:firebase-core:20.1.0") // برای Firebase Core
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+
+    // Other dependencies
+    implementation("androidx.appcompat:appcompat:1.3.1")
+
 }

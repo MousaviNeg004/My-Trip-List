@@ -2,5 +2,5 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     // اضافه کردن پلاگین Google Services به صورت Kotlin DSL
-    id("com.google.gms.google-services") version "4.3.10" apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
