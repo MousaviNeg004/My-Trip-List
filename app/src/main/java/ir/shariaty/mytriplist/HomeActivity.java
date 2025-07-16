@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                         String duration = document.getString("duration");
                         String travelers = document.getString("travelers");
 
-                        todoList.add(new ToDoList(id, title, startDate, endDate, imageUrl, duration, travelers));
+                        todoList.add(new ToDoList(id, title, startDate, imageUrl, duration, travelers));
                     }
                     adapter.notifyDataSetChanged(); // Notify the adapter to update the list
                 })
@@ -110,7 +110,6 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra("documentId", task.getDocumentId());  // Send documentId
         intent.putExtra("taskTitle", task.getTitle());
         intent.putExtra("startDate", task.getStartDate());
-        intent.putExtra("endDate", task.getEndDate());
         intent.putExtra("duration", task.getDuration());
         intent.putExtra("travelers", task.getTravelers());
         intent.putExtra("imageUrl", task.getImageUrl());

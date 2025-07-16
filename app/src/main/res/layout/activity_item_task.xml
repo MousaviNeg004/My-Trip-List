@@ -1,7 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/pink_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -9,13 +10,28 @@
         android:padding="16dp">
 
         <!-- Title -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/vazir"
+            android:text="Add New Trip"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Trip Title -->
         <EditText
             android:id="@+id/tripTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/vazir"
             android:hint="Enter trip title"
             android:inputType="text"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -24,33 +40,25 @@
             android:id="@+id/startDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter start date"
+            android:hint="Select start date"
             android:inputType="date"
+            android:fontFamily="@font/vazir"
             app:layout_constraintTop_toBottomOf="@id/tripTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp" />
-
-        <!-- End Date -->
-        <EditText
-            android:id="@+id/endDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Enter end date"
-            android:inputType="date"
-            app:layout_constraintTop_toBottomOf="@id/startDate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:focusable="false"
+            android:clickable="true" />
 
         <!-- Duration -->
         <EditText
             android:id="@+id/duration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter trip duration"
-            android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/endDate"
+            android:fontFamily="@font/vazir"
+            android:hint="Enter trip duration (in days)"
+            android:inputType="date"
+            app:layout_constraintTop_toBottomOf="@id/startDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp" />
@@ -60,6 +68,7 @@
             android:id="@+id/travelers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/vazir"
             android:hint="Enter travelers"
             android:inputType="text"
             app:layout_constraintTop_toBottomOf="@id/duration"
@@ -67,45 +76,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp" />
 
-        <!-- Layout for New Dynamic EditTexts -->
-        <LinearLayout
-            android:id="@+id/itemsLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/travelers"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp" />
-
-        <!-- Add Item Button -->
-        <Button
-            android:id="@+id/addItemButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Item Into Your To Do List"
-            android:backgroundTint="@color/pink"
-            app:layout_constraintTop_toBottomOf="@id/itemsLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
 
         <!-- Image Preview -->
         <ImageView
             android:id="@+id/selectedImageView"
             android:layout_width="0dp"
             android:layout_height="130dp"
-            android:layout_marginTop="12dp"
             android:src="@drawable/ic_camera"
-            app:layout_constraintTop_toBottomOf="@id/addItemButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/travelers" />
 
         <!-- Select Image -->
         <Button
             android:id="@+id/selectImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/vazir"
             android:text="Select Image"
             android:backgroundTint="@color/pink"
             app:layout_constraintTop_toBottomOf="@id/selectedImageView"
@@ -118,6 +105,7 @@
             android:id="@+id/saveTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/vazir"
             android:text="Save Trip"
             android:backgroundTint="@color/pink"
             app:layout_constraintTop_toBottomOf="@id/selectImageButton"

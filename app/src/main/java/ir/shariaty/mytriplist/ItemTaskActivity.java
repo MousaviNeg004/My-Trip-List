@@ -1,5 +1,6 @@
 package ir.shariaty.mytriplist;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +26,13 @@ import java.util.UUID;
 
 public class ItemTaskActivity extends AppCompatActivity {
 
-    private EditText tripTitleEditText, startDateEditText, endDateEditText, durationEditText, travelersEditText;
+    private EditText tripTitleEditText, startDateEditText, durationEditText, travelersEditText;
     private ImageView selectedImageView;
-    private Button saveTaskButton, selectImageButton, addItemButton;
-    private LinearLayout itemsLayout;
+    private Button saveTaskButton, selectImageButton;
 
     private FirebaseStorage storage;
     private Uri imageUri;
+    private int selectedYear, selectedMonth, selectedDay;
 
     // List to hold dynamically added EditText views
     private List<EditText> newEditTexts = new ArrayList<>();
@@ -43,16 +45,11 @@ public class ItemTaskActivity extends AppCompatActivity {
         // Initialize views
         tripTitleEditText = findViewById(R.id.tripTitle);
         startDateEditText = findViewById(R.id.startDate);
-        endDateEditText = findViewById(R.id.endDate);
         durationEditText = findViewById(R.id.duration);
         travelersEditText = findViewById(R.id.travelers);
         selectedImageView = findViewById(R.id.selectedImageView);
         saveTaskButton = findViewById(R.id.saveTaskButton);
         selectImageButton = findViewById(R.id.selectImageButton);
-        addItemButton = findViewById(R.id.addItemButton);
-
-        // Initialize LinearLayout for dynamic EditTexts
-        itemsLayout = findViewById(R.id.itemsLayout);
 
         storage = FirebaseStorage.getInstance();
 
@@ -61,21 +58,37 @@ public class ItemTaskActivity extends AppCompatActivity {
         if (docId != null) {
             tripTitleEditText.setText(getIntent().getStringExtra("taskTitle"));
             startDateEditText.setText(getIntent().getStringExtra("startDate"));
-            endDateEditText.setText(getIntent().getStringExtra("endDate"));
             durationEditText.setText(getIntent().getStringExtra("duration"));
             travelersEditText.setText(getIntent().getStringExtra("travelers"));
         }
+
+        // DatePicker Dialog for selecting start date (for alarm)
+        startDateEditText.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            selectedYear = calendar.get(Calendar.YEAR);
+            selectedMonth = calendar.get(Calendar.MONTH);
+            selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    ItemTaskActivity.this,
+                    (view, year, monthOfYear, dayOfMonth) -> {
+                        selectedYear = year;
+                        selectedMonth = monthOfYear;
+                        selectedDay = dayOfMonth;
+
+                        // Set selected date to the EditText field
+                        startDateEditText.setText(String.format("%d-%d-%d", selectedDay, selectedMonth + 1, selectedYear));
+                    },
+                    selectedYear, selectedMonth, selectedDay
+            );
+            datePickerDialog.show();
+        });
 
         // Select image button
         selectImageButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, 100);
-        });
-
-        // Add item button to dynamically add EditText
-        addItemButton.setOnClickListener(v -> {
-            addNewEditText();  // Add a new EditText for input
         });
 
         // Save task button
@@ -90,19 +103,6 @@ public class ItemTaskActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
-
-    // Method to add a new EditText dynamically
-    private void addNewEditText() {
-        EditText newEditText = new EditText(this);
-        newEditText.setHint("Enter new item");  // Set a hint for the new EditText
-        newEditText.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        // Add the new EditText to the layout
-        itemsLayout.addView(newEditText);
-        newEditTexts.add(newEditText);  // Add the new EditText to the list
     }
 
     // Method to upload image to Firebase Storage
@@ -125,7 +125,6 @@ public class ItemTaskActivity extends AppCompatActivity {
         // Get all entered data
         String title = tripTitleEditText.getText().toString();
         String startDate = startDateEditText.getText().toString();
-        String endDate = endDateEditText.getText().toString();
         String duration = durationEditText.getText().toString();
         String travelers = travelersEditText.getText().toString();
 
@@ -133,20 +132,9 @@ public class ItemTaskActivity extends AppCompatActivity {
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("title", title);
         taskMap.put("startDate", startDate);
-        taskMap.put("endDate", endDate);
         taskMap.put("duration", duration);
         taskMap.put("travelers", travelers);
         taskMap.put("imageUrl", imageUrl != null ? imageUrl : "");
-
-        // Add data from dynamically added EditTexts
-        List<String> additionalItems = new ArrayList<>();
-        for (EditText editText : newEditTexts) {
-            String itemText = editText.getText().toString();
-            if (!itemText.isEmpty()) {
-                additionalItems.add(itemText);
-            }
-        }
-        taskMap.put("additionalItems", additionalItems);  // Save additional items to Firestore
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

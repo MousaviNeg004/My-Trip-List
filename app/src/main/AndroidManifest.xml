@@ -1,6 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.shariaty.mytriplist">
+
+    <!-- مجوزهای لازم برای دسترسی به حافظه -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- تنظیمات لازم برای اجازه دسترسی به تصاویر در Android 13 یا بالاتر -->
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -27,9 +36,9 @@
             </intent-filter>
         </service>
 
-        <!-- MainActivity -->
+        <!-- MainActivity2: The new launch activity -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".MainActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +47,12 @@
         </activity>
 
         <!-- Other Activities -->
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ToDoListActivity"
+            android:exported="false" />
         <activity
             android:name=".ItemTaskActivity"
             android:exported="false" />

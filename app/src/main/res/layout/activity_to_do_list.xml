@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/pink_background">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToDo List"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/vazir"/>
+
+    <!-- Input field for new item -->
+    <EditText
+        android:id="@+id/newItemEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter new item"
+        android:fontFamily="@font/vazir"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"/>
+
+    <!-- Add Item Button -->
+    <Button
+        android:id="@+id/addItemButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+        android:textSize="20sp"
+        android:backgroundTint="@color/pink"
+        android:layout_below="@id/newItemEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Layout to hold added items -->
+    <LinearLayout
+        android:id="@+id/itemsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/addItemButton"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>

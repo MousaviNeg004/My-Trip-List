@@ -4,27 +4,24 @@ public class ToDoList {
     private String documentId;
     private String title;
     private String startDate;
-    private String endDate;
     private String duration;
     private String travelers;
     private String imageUrl;
 
     // Constructor with documentId
-    public ToDoList(String documentId, String title, String startDate, String endDate, String imageUrl, String duration, String travelers) {
+    public ToDoList(String documentId, String title, String startDate, String imageUrl, String duration, String travelers) {
         this.documentId = documentId;
         this.title = title;
         this.startDate = startDate;
-        this.endDate = endDate;
         this.imageUrl = imageUrl;
         this.duration = duration;
         this.travelers = travelers;
     }
 
     // Constructor without documentId for new items
-    public ToDoList(String title, String startDate, String endDate) {
+    public ToDoList(String title, String startDate) {
         this.title = title;
         this.startDate = startDate;
-        this.endDate = endDate;
         this.imageUrl = "";
         this.duration = "";
         this.travelers = "";
@@ -53,14 +50,6 @@ public class ToDoList {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
     }
 
     public String getDuration() {

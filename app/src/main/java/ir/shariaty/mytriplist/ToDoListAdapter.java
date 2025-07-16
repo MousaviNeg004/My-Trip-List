@@ -36,7 +36,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         ToDoList task = taskList.get(position);
         holder.titleText.setText(task.getTitle());
-        holder.dateText.setText(task.getStartDate() + " to " + task.getEndDate());
 
         holder.deleteButton.setOnClickListener(v -> {
             if (listener != null) {
