@@ -3,5 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink_background">#FFE1FD</color>
+    <color name="darker_pink_background">#FDB0F6</color>
     <color name="pink">#FF79F6</color>
+    <color name="pink2">#E928DD</color>
+
 </resources>

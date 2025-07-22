@@ -31,12 +31,12 @@ public class HomeActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Setup RecyclerView
+        //setup RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         todoList = new ArrayList<>();
 
-        // Setup Adapter
+        //setup Adapter
         adapter = new ToDoListAdapter(todoList, new ToDoListAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
@@ -51,77 +51,74 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // Add new task button
+        //add new task button
         FloatingActionButton addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ItemTaskActivity.class);
             startActivityForResult(intent, 1);
         });
 
-        // Fetch tasks from Firebase
         fetchTasksFromFirebase();
     }
 
-    // Fetch tasks from Firebase and display in RecyclerView
+    //method to fetch tasks from Firebase and display in RecyclerView
     private void fetchTasksFromFirebase() {
         db.collection("tasks")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     todoList.clear();
                     for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        String id = document.getId();  // Get documentId
+                        String id = document.getId();
                         String title = document.getString("title");
                         String startDate = document.getString("startDate");
-                        String endDate = document.getString("endDate");
                         String imageUrl = document.getString("imageUrl");
                         String duration = document.getString("duration");
                         String travelers = document.getString("travelers");
 
                         todoList.add(new ToDoList(id, title, startDate, imageUrl, duration, travelers));
                     }
-                    adapter.notifyDataSetChanged(); // Notify the adapter to update the list
+                    adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(HomeActivity.this, "Error fetching tasks", Toast.LENGTH_SHORT).show()
-                );
+                .addOnFailureListener(e -> {
+                    Toast.makeText(HomeActivity.this, "Error fetching tasks", Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Delete task from Firebase
+    //method to delete task from Firebase
     private void deleteTaskFromFirebase(int position) {
         ToDoList task = todoList.get(position);
-        String docId = task.getDocumentId();  // Get documentId
+        String docId = task.getDocumentId();
 
-        db.collection("tasks").document(docId)  // Delete based on documentId
+        db.collection("tasks").document(docId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    todoList.remove(position);  // Remove the item from the list
-                    adapter.notifyItemRemoved(position);  // Update RecyclerView
+                    fetchTasksFromFirebase();
                     Toast.makeText(HomeActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(HomeActivity.this, "Error deleting task", Toast.LENGTH_SHORT).show()
-                );
+                .addOnFailureListener(e -> {
+                    Toast.makeText(HomeActivity.this, "Error deleting task", Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Edit task
+    //method to edit task
     private void editTask(int position) {
         ToDoList task = todoList.get(position);
         Intent intent = new Intent(HomeActivity.this, ItemTaskActivity.class);
-        intent.putExtra("documentId", task.getDocumentId());  // Send documentId
+        intent.putExtra("documentId", task.getDocumentId());
         intent.putExtra("taskTitle", task.getTitle());
         intent.putExtra("startDate", task.getStartDate());
         intent.putExtra("duration", task.getDuration());
         intent.putExtra("travelers", task.getTravelers());
         intent.putExtra("imageUrl", task.getImageUrl());
-        startActivityForResult(intent, 2);  // Use requestCode for edit
+        startActivityForResult(intent, 2);
     }
 
-    // Handle result after adding or editing task
+    //method for result after adding or editing task
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && (requestCode == 1 || requestCode == 2)) {
-            fetchTasksFromFirebase();  // Refresh the list after adding or editing
+            fetchTasksFromFirebase();
         }
     }
 }

@@ -5,5 +5,20 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Main app theme -->
     <style name="Theme.MyTripList" parent="Base.Theme.MyTripList" />
+
+    <!-- Custom theme for DatePickerDialog -->
+    <style name="CustomDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/pink2</item> <!-- Accent color for the date picker -->
+        <item name="android:textColorPrimary">@color/black</item> <!-- Text color -->
+        <item name="android:background">@color/darker_pink_background</item> <!-- Background color -->
+    </style>
+
+    <!-- Custom theme for TimePickerDialog -->
+    <style name="CustomTimePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/pink2</item> <!-- Accent color for the time picker -->
+        <item name="android:textColorPrimary">@color/black</item> <!-- Text color -->
+        <item name="android:background">@color/darker_pink_background</item> <!-- Background color -->
+    </style>
 </resources>

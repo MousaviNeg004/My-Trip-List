@@ -1,14 +1,8 @@
 package ir.shariaty.mytriplist;
 
 public class ToDoList {
-    private String documentId;
-    private String title;
-    private String startDate;
-    private String duration;
-    private String travelers;
-    private String imageUrl;
+    private String documentId, title, startDate, duration, travelers, imageUrl;
 
-    // Constructor with documentId
     public ToDoList(String documentId, String title, String startDate, String imageUrl, String duration, String travelers) {
         this.documentId = documentId;
         this.title = title;
@@ -18,7 +12,6 @@ public class ToDoList {
         this.travelers = travelers;
     }
 
-    // Constructor without documentId for new items
     public ToDoList(String title, String startDate) {
         this.title = title;
         this.startDate = startDate;
@@ -27,7 +20,15 @@ public class ToDoList {
         this.travelers = "";
     }
 
-    // Getter and Setter methods
+    // Getter and Setter
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
     public String getDocumentId() {
         return documentId;
     }
@@ -42,14 +43,6 @@ public class ToDoList {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
     }
 
     public String getDuration() {

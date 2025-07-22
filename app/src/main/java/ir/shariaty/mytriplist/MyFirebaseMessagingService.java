@@ -5,13 +5,10 @@ import android.app.NotificationChannel;
 import android.app.Notification;
 import android.content.Context;
 import android.os.Build;
-
 import androidx.core.app.NotificationCompat;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,27 +16,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // اگر پیام دارای داده باشد
         if (remoteMessage.getData().size() > 0) {
             String title = remoteMessage.getData().get("title");
             String startDate = remoteMessage.getData().get("startDate");
-            String endDate = remoteMessage.getData().get("endDate");
 
-            // ذخیره در Firebase
-            saveTaskToFirestore(title, startDate, endDate);
+            saveTaskToFirestore(title, startDate);
 
-            // نمایش نوتیفیکیشن
             sendNotification(title);
         }
     }
 
-    private void saveTaskToFirestore(String title, String startDate, String endDate) {
+    private void saveTaskToFirestore(String title, String startDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("title", title);
         taskMap.put("startDate", startDate);
-        taskMap.put("endDate", endDate);
         taskMap.put("duration", "");
         taskMap.put("travelers", "");
         taskMap.put("imageUrl", "");
@@ -58,7 +50,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // ایجاد channel برای Android 8 به بالا
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     channelId,

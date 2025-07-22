@@ -6,10 +6,10 @@
     <!-- مجوزهای لازم برای دسترسی به حافظه -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- تنظیمات لازم برای اجازه دسترسی به تصاویر در Android 13 یا بالاتر -->
     <uses-permission
         android:name="android.permission.READ_MEDIA_IMAGES"
-        android:required="false" />
+        android:required="false" /> <!-- مجوز تنظیم آلارم -->
+    <uses-permission android:name="android.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -64,6 +64,12 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- AlarmReceiver Receiver -->
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
             android:exported="false" />
 
     </application>

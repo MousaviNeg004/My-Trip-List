@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -13,18 +15,22 @@
         android:text="ToDo List"
         android:textSize="35dp"
         android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"
-        android:layout_centerHorizontal="true"
         android:fontFamily="@font/vazir"/>
 
     <!-- Input field for new item -->
     <EditText
         android:id="@+id/newItemEditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Enter new item"
         android:fontFamily="@font/vazir"
-        android:layout_below="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
         android:padding="10dp"/>
 
@@ -36,17 +42,22 @@
         android:text="Add Item"
         android:textSize="20sp"
         android:backgroundTint="@color/pink"
-        android:layout_below="@id/newItemEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/newItemEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
 
     <!-- Layout to hold added items -->
     <LinearLayout
         android:id="@+id/itemsLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/addItemButton"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/addItemButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp">
 
-</RelativeLayout>
+</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
