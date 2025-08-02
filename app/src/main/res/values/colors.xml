@@ -4,7 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink_background">#FFE1FD</color>
     <color name="darker_pink_background">#FDB0F6</color>
+    <color name="light_pink">#FBEAFA</color>
     <color name="pink">#FF79F6</color>
     <color name="pink2">#E928DD</color>
+    <color name="fieldTextColor">#6E6E85</color>
+    <color name="hint">#D5A9D2</color>
+
 
 </resources>

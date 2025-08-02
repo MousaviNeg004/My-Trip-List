@@ -7,6 +7,7 @@ plugins {
 android {
     namespace = "ir.shariaty.mytriplist"
     compileSdk = 35
+    buildToolsVersion = "35.0.1"
 
     defaultConfig {
         applicationId = "ir.shariaty.mytriplist"
