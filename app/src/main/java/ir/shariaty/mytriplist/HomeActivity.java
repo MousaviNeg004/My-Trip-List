@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra("startDate", task.getStartDate());
         intent.putExtra("duration", task.getDuration());
         intent.putExtra("travelers", task.getTravelers());
-        intent.putExtra("imageUrl", task.getImageUrl());
+        intent.putExtra("imageUrl", task.getImageUrl());  // 👈 ارسال آدرس عکس
         startActivityForResult(intent, 2);
     }
 

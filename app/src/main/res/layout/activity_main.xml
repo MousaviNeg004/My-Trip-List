@@ -21,9 +21,10 @@
     <!-- Sign Up Button -->
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="373dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="416dp"
+        android:layout_marginStart="25dp"
         android:backgroundTint="@android:color/transparent"
         android:drawableLeft="@drawable/ic_signup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,24 +33,27 @@
         app:layout_constraintTop_toTopOf="@+id/backgroundImage" />
 
     <!-- Sign In Button -->
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_signin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.351"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
     <!-- Sign In with Google Button -->
     <Button
-        android:id="@+id/btnGoogleSignIn"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnLogin"
+        android:layout_width="373dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="25dp"
+        android:backgroundTint="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
+
+    <Button
+        android:id="@+id/btnGoogleSignIn"
+        android:layout_width="373dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="25dp"
         android:backgroundTint="@android:color/transparent"
         android:drawableLeft="@drawable/ic_google"
         app:layout_constraintEnd_toEndOf="parent"

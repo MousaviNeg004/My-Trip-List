@@ -21,20 +21,21 @@ public class MainActivity extends AppCompatActivity {
         // دکمه ثبت‌نام (هدایت به صفحه ثبت‌نام)
         btnSignUp.setOnClickListener(v -> {
             // هدایت به صفحه ثبت‌نام
-            //Intent intent = new Intent(MainActivity.this, SignUpActivity.class); // صفحه جداگانه برای ثبت‌نام
-            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class); // صفحه جداگانه برای ثبت‌نام
+            startActivity(intent);
         });
 
         // دکمه ورود (هدایت به صفحه ورود)
         btnLogin.setOnClickListener(v -> {
             // هدایت به صفحه ورود
-            //Intent intent = new Intent(MainActivity.this, LoginActivity.class); // صفحه جداگانه برای ورود
-            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class); // صفحه جداگانه برای ورود
+            startActivity(intent);
         });
 
         // دکمه ورود با گوگل
         btnGoogleSignIn.setOnClickListener(v -> {
-            signInWithGoogle();  // فراخوانی ورود با گوگل
+            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+            startActivity(intent);
         });
     }
 

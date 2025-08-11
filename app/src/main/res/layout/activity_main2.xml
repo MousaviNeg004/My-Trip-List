@@ -14,7 +14,7 @@
         android:textSize="35sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/vazir"/>
 
     <!-- Trip List Button -->
@@ -41,6 +41,6 @@
         android:backgroundTint="@color/pink"
         android:layout_below="@id/tripListButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="30dp"/>
 
 </RelativeLayout>

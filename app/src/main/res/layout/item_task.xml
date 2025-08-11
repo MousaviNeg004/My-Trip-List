@@ -20,8 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Trip Title"
             android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="18sp" />
 
         <!-- Start Date -->
         <TextView
@@ -30,16 +29,25 @@
             android:layout_height="wrap_content"
             android:text="Start Date"
             android:textSize="14sp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@id/taskTitleText" />
+            android:layout_marginTop="4dp" />
 
+        <!-- Travel Image (new added) -->
+        <ImageView
+            android:id="@+id/taskImage"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_placeholder" />
+
+        <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
             android:gravity="end"
-            app:layout_constraintTop_toBottomOf="@id/taskDateText">
+            android:layout_marginTop="4dp">
 
             <!-- Edit Button -->
             <Button

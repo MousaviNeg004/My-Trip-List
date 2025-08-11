@@ -21,4 +21,11 @@
         <item name="android:textColorPrimary">@color/black</item> <!-- Text color -->
         <item name="android:background">@color/darker_pink_background</item> <!-- Background color -->
     </style>
+    <style name="GoogleSignInDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- پس‌زمینه شفاف -->
+        <item name="android:windowIsFloating">true</item> <!-- کوچکتر از تمام صفحه -->
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
 </resources>
