@@ -19,6 +19,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,7 +40,7 @@ dependencies {
     implementation("com.google.android.material:material:1.5.0")
     implementation("androidx.activity:activity-ktx:1.6.1") // ✅ ارتقا برای سازگاری بهتر
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
-
+    implementation("com.google.code.gson:gson:2.10.1")
     // Lifecycle هماهنگ
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")

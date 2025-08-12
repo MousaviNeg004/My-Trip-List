@@ -8,6 +8,8 @@
     android:background="@color/pink_background"
     tools:context=".HomeActivity">
 
+    <!-- Back button (goes to MainActivity2) -->
+
     <!-- Title -->
     <TextView
         android:id="@+id/titleText"
@@ -22,7 +24,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- لیست قابل اسکرول -->
+    <!-- Back button (left of "Saved Trips") -->
+    <!-- RecyclerView -->
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:elevation="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintBottom_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/titleText"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -34,7 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- دکمه افزودن -->
+    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTaskButton"
         android:layout_width="wrap_content"

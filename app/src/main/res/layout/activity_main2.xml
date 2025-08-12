@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:fontFamily="@font/vazir"/>
+        android:fontFamily="@font/vazir" />
 
     <!-- Trip List Button -->
     <Button
@@ -28,7 +28,7 @@
         android:backgroundTint="@color/pink"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"/>
+        android:layout_marginTop="130dp" />
 
     <!-- To Do List Button -->
     <Button
@@ -41,6 +41,21 @@
         android:backgroundTint="@color/pink"
         android:layout_below="@id/tripListButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp" />
+
+    <!-- LogOut Button (کوچک‌تر، پایینِ چپ) -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:text="LogOut"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:fontFamily="@font/vazir"
+        android:backgroundTint="@color/pink"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="24dp" />
 
 </RelativeLayout>

@@ -19,22 +19,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/vazir"/>
+        android:fontFamily="@font/vazir" />
 
-    <!-- Input field for new item -->
+    <!-- Input -->
     <EditText
         android:id="@+id/newItemEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Enter new item"
+        android:padding="10dp"
         android:fontFamily="@font/vazir"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"/>
+        android:layout_marginTop="20dp" />
 
-    <!-- Add Item Button -->
+    <!-- Add -->
     <Button
         android:id="@+id/addItemButton"
         android:layout_width="150dp"
@@ -47,33 +47,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp" />
 
-    <!-- Layout to hold added items -->
+    <!-- آیتم‌ها (چیک‌باکس + حذف) -->
     <LinearLayout
         android:id="@+id/itemsLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/addItemButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
-    </LinearLayout>
+        app:layout_constraintBottom_toTopOf="@id/saveCheckedButton"
+        android:layout_marginTop="20dp" />
 
-    <!-- Save Checked Items Button -->
+    <!-- Save پایین صفحه ثابت -->
     <Button
         android:id="@+id/saveCheckedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Save"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
         android:backgroundTint="@color/pink"
         android:fontFamily="@font/vazir"
-        android:text="Save"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemsLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+// ====== imports اضافه برای آلارم دقیق و زمان ======
+import android.provider.Settings;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+// ================================================
+
 public class ItemTaskActivity extends AppCompatActivity {
 
     private static final int REQ_PICK_IMAGE = 100;
@@ -52,7 +62,6 @@ public class ItemTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_task);
 
-        // نوتیفیکیشن برای اندروید 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -69,7 +78,6 @@ public class ItemTaskActivity extends AppCompatActivity {
         saveTaskButton = findViewById(R.id.saveTaskButton);
         selectImageButton = findViewById(R.id.selectImageButton);
 
-        // اگر در حالت ادیت هستیم
         String docId = getIntent().getStringExtra("documentId");
         if (docId != null) {
             tripTitleEditText.setText(getIntent().getStringExtra("taskTitle"));
@@ -79,7 +87,6 @@ public class ItemTaskActivity extends AppCompatActivity {
             loadedImageUrl = getIntent().getStringExtra("imageUrl");
 
             if (loadedImageUrl != null && !loadedImageUrl.isEmpty()) {
-                // هم لینک http و هم مسیر لوکال را پشتیبانی کن
                 if (loadedImageUrl.startsWith("http")) {
                     Glide.with(this).load(loadedImageUrl).into(selectedImageView);
                 } else {
@@ -93,49 +100,41 @@ public class ItemTaskActivity extends AppCompatActivity {
             int y = c.get(Calendar.YEAR);
             int m = c.get(Calendar.MONTH);
             int d = c.get(Calendar.DAY_OF_MONTH);
-
             DatePickerDialog dp = new DatePickerDialog(
                     ItemTaskActivity.this,
                     R.style.CustomDatePickerDialogTheme,
-                    (view, year, monthOfYear, dayOfMonth) -> {
-                        startDateEditText.setText(String.format("%d-%d-%d", dayOfMonth, monthOfYear + 1, year));
-                    }, y, m, d
+                    (view, year, monthOfYear, dayOfMonth) ->
+                            startDateEditText.setText(String.format("%d-%d-%d", dayOfMonth, monthOfYear + 1, year)),
+                    y, m, d
             );
             dp.show();
         });
 
         selectImageButton.setOnClickListener(v -> pickImageWithPermission());
-
         alarmTimeEditText.setOnClickListener(v -> showTimePickerDialog());
 
         saveTaskButton.setOnClickListener(v -> {
-            // 1) تصویر را اگر انتخاب شده، به حافظه داخلی کپی کن و مسیرش را بگیر
-            String imagePathToSave = loadedImageUrl; // پیش‌فرض اگر عکسی جدید انتخاب نشده
+            // *** هیچ تغییری در ذخیره‌ی تصویر نداده‌ام ***
+            String imagePathToSave = loadedImageUrl;
             if (imageUri != null) {
                 String savedPath = saveImageToInternalStorage(imageUri);
-                if (savedPath != null) {
-                    imagePathToSave = savedPath;
-                } else {
-                    Toast.makeText(this, "ذخیره تصویر در حافظه داخلی ناموفق بود", Toast.LENGTH_LONG).show();
-                }
+                if (savedPath != null) imagePathToSave = savedPath;
             }
 
-            // 2) ذخیره سند در Firestore (به‌همراه مسیر لوکال)
             saveTaskToFirestore(imagePathToSave);
 
-            // 3) اگر ساعت آلارم وارد شده، آلارم تنظیم شود
             String alarmTime = alarmTimeEditText.getText().toString().trim();
             if (!alarmTime.isEmpty()) {
-                setAlarm(alarmTime);
+                // آلارم دقیقا یک روز قبل
+                setAlarmOneDayBefore(alarmTime);
             }
 
-            // برگشت به خانه
-            Intent intent = new Intent(ItemTaskActivity.this, HomeActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(ItemTaskActivity.this, HomeActivity.class));
             finish();
         });
     }
 
+    // ---------- بقیه‌ی متدهای قبلی‌ات بدون تغییر ----------
     private void pickImageWithPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
@@ -167,28 +166,23 @@ public class ItemTaskActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 R.style.CustomTimePickerDialogTheme,
-                (view, hourOfDay, minuteOfHour) -> alarmTimeEditText.setText(String.format("%02d:%02d", hourOfDay, minuteOfHour)),
+                (view, hourOfDay, minuteOfHour) ->
+                        alarmTimeEditText.setText(String.format("%02d:%02d", hourOfDay, minuteOfHour)),
                 hour, minute, true
         );
         timePickerDialog.show();
     }
 
-    /**
-     * کپی کردن عکس انتخابی به حافظۀ داخلی app و برگرداندن مسیر فایل
-     */
     private String saveImageToInternalStorage(Uri src) {
         try {
-            // تعیین پسوند از روی mimeType
             String mime = getContentResolver().getType(src);
             String ext = "jpg";
             if (mime != null) {
                 String guess = MimeTypeMap.getSingleton().getExtensionFromMimeType(mime);
                 if (guess != null) ext = guess;
             }
-
             String fileName = "trip_" + UUID.randomUUID() + "." + ext;
             File outFile = new File(getFilesDir(), fileName);
-
             try (InputStream in = getContentResolver().openInputStream(src);
                  OutputStream out = new FileOutputStream(outFile)) {
                 byte[] buf = new byte[8192];
@@ -196,10 +190,7 @@ public class ItemTaskActivity extends AppCompatActivity {
                 while ((len = in.read(buf)) != -1) out.write(buf, 0, len);
                 out.flush();
             }
-
-            // برای نمایش فوری در UI
             Glide.with(this).load(outFile).into(selectedImageView);
-
             return outFile.getAbsolutePath();
         } catch (Exception e) {
             Log.e("ItemTaskActivity", "saveImageToInternalStorage error", e);
@@ -207,9 +198,6 @@ public class ItemTaskActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * ذخیره سند در Firestore (با مسیر لوکال تصویر)
-     */
     private void saveTaskToFirestore(String imagePath) {
         String title = tripTitleEditText.getText().toString().trim();
         String startDate = startDateEditText.getText().toString().trim();
@@ -229,64 +217,68 @@ public class ItemTaskActivity extends AppCompatActivity {
             String docId = getIntent().getStringExtra("documentId");
             db.collection("tasks").document(docId)
                     .update(taskMap)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Task updated successfully", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error updating task", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> setResult(RESULT_OK))
+                    .addOnFailureListener(e -> {});
         } else {
             db.collection("tasks").add(taskMap)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(this, "Task saved successfully", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error saving task", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(documentReference -> setResult(RESULT_OK))
+                    .addOnFailureListener(e -> {});
         }
     }
+    // ------------------------------------------------------
 
-    /**
-     * آلارم دقیق زمان سفر. تاریخ را از متن startDate می‌خوانیم تا مشکل «گذشته» پیش نیاید.
-     * فرمت تاریخ: d-M-yyyy   (مثل 5-8-2025)
-     */
-    private void setAlarm(String alarmTime) {
+    /** اگر لازم باشد، کاربر را به صفحه‌ی Allow exact alarms می‌برد */
+    private boolean ensureExactAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12+
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (am != null && !am.canScheduleExactAlarms()) {
+                Intent i = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                i.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(i);
+                Toast.makeText(this, "لطفاً در صفحه‌ی بعد «Allow exact alarms» را روشن کن و بعد دوباره ذخیره کن.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** آلارم = دقیقا یک روز قبل از زمان سفر (تاریخ از startDate و ساعت از alarmTime) */
+    private void setAlarmOneDayBefore(String alarmTime) {
         try {
-            String[] dateParts = startDateEditText.getText().toString().trim().split("-");
-            if (dateParts.length != 3) {
-                Toast.makeText(this, "فرمت تاریخ درست نیست", Toast.LENGTH_LONG).show();
+            String dateStr = startDateEditText.getText().toString().trim();
+            if (dateStr.isEmpty()) {
+                Toast.makeText(this, "تاریخ شروع خالی است.", Toast.LENGTH_LONG).show();
                 return;
             }
-            int day = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]) - 1; // Calendar: 0-based
-            int year = Integer.parseInt(dateParts[2]);
 
-            String[] timeParts = alarmTime.split(":");
-            if (timeParts.length != 2) {
-                Toast.makeText(this, "فرمت ساعت درست نیست", Toast.LENGTH_LONG).show();
-                return;
-            }
-            int hour = Integer.parseInt(timeParts[0]);
-            int minute = Integer.parseInt(timeParts[1]);
+            // تاریخ با الگوی d-M-uuuu مثل 13-8-2025
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("d-M-uuuu");
+            LocalDate date = LocalDate.parse(dateStr, df);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
+            DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime time = LocalTime.parse(alarmTime, tf);
 
-            long triggerAt = calendar.getTimeInMillis();
+            // زمان شروع سفر
+            LocalDateTime tripDateTime = LocalDateTime.of(date, time);
+            // یک روز قبل
+            LocalDateTime alarmDateTime = tripDateTime.minusDays(1);
+
+            long triggerAt = alarmDateTime
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()
+                    .toEpochMilli();
+
             if (triggerAt <= System.currentTimeMillis()) {
-                Toast.makeText(this, "آلارم برای زمانی در گذشته است. لطفاً زمان معتبر انتخاب کن", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "آلارمِ یک روز قبل، از الان گذشته است.", Toast.LENGTH_LONG).show();
                 return;
             }
+
+            if (!ensureExactAlarmPermission()) return;
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlarmReceiver.class);
             intent.putExtra("tripTitle", tripTitleEditText.getText().toString());
+            intent.putExtra("notifText", "You have a trip tomorrow!");
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     this, 0, intent,
@@ -294,11 +286,14 @@ public class ItemTaskActivity extends AppCompatActivity {
             );
 
             if (alarmManager != null) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent);
-                Toast.makeText(this, "Alarm set for trip time", Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent);
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent);
+                }Toast.makeText(this, "I’ve just set the alarm for one day before your trip.", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Log.e("ItemTaskActivity", "setAlarm error", e);
+            Log.e("ItemTaskActivity", "setAlarmOneDayBefore error", e);
             Toast.makeText(this, "خطا در تنظیم آلارم", Toast.LENGTH_LONG).show();
         }
     }

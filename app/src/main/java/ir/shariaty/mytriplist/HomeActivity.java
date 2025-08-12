@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import android.util.Log;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,13 @@ public class HomeActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        // Back button -> MainActivity2
+        ImageButton backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, MainActivity2.class));
+            finish();
+        });
+
         // Setup RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -49,7 +60,6 @@ public class HomeActivity extends AppCompatActivity {
                 editTask(position);
             }
         });
-
         recyclerView.setAdapter(adapter);
 
         // Add new task button
@@ -62,7 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         fetchTasksFromFirebase();
     }
 
-    // Fetch tasks from Firebase and display in RecyclerView
     private void fetchTasksFromFirebase() {
         db.collection("tasks")
                 .get()
@@ -76,13 +85,10 @@ public class HomeActivity extends AppCompatActivity {
                         String duration = document.getString("duration");
                         String travelers = document.getString("travelers");
 
-                        // چک کردن اینکه imageUrl معتبر هست یا نه
                         if (imageUrl == null || imageUrl.isEmpty()) {
-                            // اگر imageUrl خالی بود، از تصویر پیش‌فرض استفاده کن
-                            imageUrl = "android.resource://" + getPackageName() + "/" + R.drawable.ic_placeholder;  // تصویر پیش‌فرض
+                            imageUrl = "android.resource://" + getPackageName() + "/" + R.drawable.ic_placeholder;
                         }
 
-                        // حالا تصویر درست رو به ToDoList اضافه کن
                         todoList.add(new ToDoList(id, title, startDate, imageUrl, duration, travelers));
                     }
                     adapter.notifyDataSetChanged();
@@ -93,7 +99,6 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    // Delete task from Firebase
     private void deleteTaskFromFirebase(int position) {
         ToDoList task = todoList.get(position);
         String docId = task.getDocumentId();
@@ -102,14 +107,14 @@ public class HomeActivity extends AppCompatActivity {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     fetchTasksFromFirebase();
-                    Toast.makeText(HomeActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();})
+                    Toast.makeText(HomeActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();
+                })
                 .addOnFailureListener(e -> {
                     Toast.makeText(HomeActivity.this, "Error deleting task", Toast.LENGTH_SHORT).show();
                     Log.e("HomeActivity", "Error deleting task", e);
                 });
     }
 
-    // Edit task
     private void editTask(int position) {
         ToDoList task = todoList.get(position);
         Intent intent = new Intent(HomeActivity.this, ItemTaskActivity.class);
@@ -118,16 +123,15 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra("startDate", task.getStartDate());
         intent.putExtra("duration", task.getDuration());
         intent.putExtra("travelers", task.getTravelers());
-        intent.putExtra("imageUrl", task.getImageUrl()); // Send image URL
+        intent.putExtra("imageUrl", task.getImageUrl());
         startActivityForResult(intent, 2);
     }
 
-    // Result after adding or editing task
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && (requestCode == 1 || requestCode == 2)) {
-            fetchTasksFromFirebase();  // دوباره داده‌ها رو از Firebase بگیر و RecyclerView رو به‌روز کن
+            fetchTasksFromFirebase();
         }
     }
 }

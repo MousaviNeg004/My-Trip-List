@@ -12,7 +12,20 @@
           "package_name": "ir.shariaty.mytriplist"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "985169580117-4j3v4t0ecoch1t22bl6ketjh0r52v0nb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ir.shariaty.mytriplist",
+            "certificate_hash": "a1dfa468d982699bfc4ada54bcde0e649f5c356f"
+          }
+        },
+        {
+          "client_id": "985169580117-vd03aqme5lgli04bb1b7qh61lf89h91a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAVVkHIB-7DE4r3ND9u8zfXByTon8Dko4I"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985169580117-vd03aqme5lgli04bb1b7qh61lf89h91a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
