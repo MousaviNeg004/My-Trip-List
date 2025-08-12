@@ -1,14 +1,19 @@
 package ir.shariaty.mytriplist;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.File;
 import java.util.List;
 
 public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskViewHolder> {
@@ -40,26 +45,40 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
         holder.titleText.setText(task.getTitle());
         holder.dateText.setText(task.getStartDate());
 
-        if (task.getImageUrl() != null && !task.getImageUrl().isEmpty()) {
-            Glide.with(holder.itemView.getContext())
-                    .load(task.getImageUrl())
-                    .override(120, 80)  // 👈 این خط مهمه
-                    .centerCrop()
-                    .into(holder.taskImage);
+        String img = task.getImageUrl();
+
+        if (!TextUtils.isEmpty(img)) {
+            if (img.startsWith("http")) {
+                // تصویر آنلاین (قدیمی‌ها که روی Firebase بودن)
+                Glide.with(holder.itemView.getContext())
+                        .load(img)
+                        .override(120, 80)
+                        .centerCrop()
+                        .into(holder.taskImage);
+            } else {
+                // مسیر لوکال داخل حافظه داخلی برنامه
+                File file = new File(img);
+                if (file.exists()) {
+                    Glide.with(holder.itemView.getContext())
+                            .load(file)
+                            .override(120, 80)
+                            .centerCrop()
+                            .into(holder.taskImage);
+                } else {
+                    // اگر فایل حذف/جابجا شده بود، پلیس‌هولدر نشون بده
+                    holder.taskImage.setImageResource(R.drawable.ic_placeholder);
+                }
+            }
         } else {
             holder.taskImage.setImageResource(R.drawable.ic_placeholder);
         }
 
         holder.deleteButton.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onDeleteClick(position);
-            }
+            if (listener != null) listener.onDeleteClick(position);
         });
 
         holder.editButton.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onEditClick(position);
-            }
+            if (listener != null) listener.onEditClick(position);
         });
     }
 
@@ -79,7 +98,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
             dateText = itemView.findViewById(R.id.taskDateText);
             deleteButton = itemView.findViewById(R.id.delete_button);
             editButton = itemView.findViewById(R.id.edit_button);
-            taskImage = itemView.findViewById(R.id.taskImage);  // new ImageView
+            taskImage = itemView.findViewById(R.id.taskImage);
         }
     }
 }
