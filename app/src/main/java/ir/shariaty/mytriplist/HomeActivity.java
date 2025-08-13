@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ToDoListAdapter adapter;
-    private List<ToDoList> todoList;
+    private final List<ToDoList> todoList = new ArrayList<>();
     private FirebaseFirestore db;
 
     @Override
@@ -33,28 +33,27 @@ public class HomeActivity extends AppCompatActivity {
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this);
         }
-
         db = FirebaseFirestore.getInstance();
 
         // Back button -> MainActivity2
         ImageButton backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, MainActivity2.class));
-            finish();
-        });
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v -> {
+                startActivity(new Intent(HomeActivity.this, MainActivity2.class));
+                finish();
+            });
+        }
 
-        // Setup RecyclerView
+        // RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        todoList = new ArrayList<>();
 
-        // Setup Adapter
+        // Adapter
         adapter = new ToDoListAdapter(todoList, new ToDoListAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
                 deleteTaskFromFirebase(position);
             }
-
             @Override
             public void onEditClick(int position) {
                 editTask(position);
@@ -62,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
 
-        // Add new task button
+        // FAB: Add new
         FloatingActionButton addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ItemTaskActivity.class);
@@ -100,22 +99,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void deleteTaskFromFirebase(int position) {
+        if (position < 0 || position >= todoList.size()) return;
+
         ToDoList task = todoList.get(position);
         String docId = task.getDocumentId();
+
+        // حذف فوری از UI
+        todoList.remove(position);
+        adapter.notifyItemRemoved(position);
 
         db.collection("tasks").document(docId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    fetchTasksFromFirebase();
                     Toast.makeText(HomeActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();
+                    // در صورت تمایل می‌تونی دوباره از سرور تازه کنی:
+                    // fetchTasksFromFirebase();
                 })
                 .addOnFailureListener(e -> {
+                    // برگرداندن آیتم در صورت خطا
+                    todoList.add(position, task);
+                    adapter.notifyItemInserted(position);
                     Toast.makeText(HomeActivity.this, "Error deleting task", Toast.LENGTH_SHORT).show();
                     Log.e("HomeActivity", "Error deleting task", e);
                 });
     }
 
     private void editTask(int position) {
+        if (position < 0 || position >= todoList.size()) return;
+
         ToDoList task = todoList.get(position);
         Intent intent = new Intent(HomeActivity.this, ItemTaskActivity.class);
         intent.putExtra("documentId", task.getDocumentId());

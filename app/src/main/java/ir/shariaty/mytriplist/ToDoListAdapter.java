@@ -18,8 +18,8 @@ import java.util.List;
 
 public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskViewHolder> {
 
-    private List<ToDoList> taskList;
-    private OnItemClickListener listener;
+    private final List<ToDoList> taskList;
+    private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
@@ -46,17 +46,14 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
         holder.dateText.setText(task.getStartDate());
 
         String img = task.getImageUrl();
-
         if (!TextUtils.isEmpty(img)) {
             if (img.startsWith("http")) {
-                // تصویر آنلاین (قدیمی‌ها که روی Firebase بودن)
                 Glide.with(holder.itemView.getContext())
                         .load(img)
                         .override(120, 80)
                         .centerCrop()
                         .into(holder.taskImage);
             } else {
-                // مسیر لوکال داخل حافظه داخلی برنامه
                 File file = new File(img);
                 if (file.exists()) {
                     Glide.with(holder.itemView.getContext())
@@ -65,7 +62,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
                             .centerCrop()
                             .into(holder.taskImage);
                 } else {
-                    // اگر فایل حذف/جابجا شده بود، پلیس‌هولدر نشون بده
                     holder.taskImage.setImageResource(R.drawable.ic_placeholder);
                 }
             }
@@ -73,12 +69,21 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
             holder.taskImage.setImageResource(R.drawable.ic_placeholder);
         }
 
+        // از position لحظه‌ای استفاده کن
         holder.deleteButton.setOnClickListener(v -> {
-            if (listener != null) listener.onDeleteClick(position);
+            if (listener == null) return;
+            int pos = holder.getBindingAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onDeleteClick(pos);
+            }
         });
 
         holder.editButton.setOnClickListener(v -> {
-            if (listener != null) listener.onEditClick(position);
+            if (listener == null) return;
+            int pos = holder.getBindingAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onEditClick(pos);
+            }
         });
     }
 

@@ -2,5 +2,10 @@
     <string name="app_name">My Trip List</string>
     <string name="default_notification_channel_id">default_channel</string>
     <string name="back">بازگشت</string>
+    <string name="cd_alarm_bell">Ringing bell</string>
+    <string name="alarm_title">Reminder: Trip</string>
+    <string name="alarm_message">You have a trip tomorrow! Did you pack everything?</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="open_app">Open App</string>
     <string name="default_web_client_id">985169580117-vd03aqme5lgli04bb1b7qh61lf89h91a.apps.googleusercontent.com</string>
 </resources>

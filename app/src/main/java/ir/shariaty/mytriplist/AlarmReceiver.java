@@ -3,7 +3,6 @@ package ir.shariaty.mytriplist;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -15,6 +14,17 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String tripTitle = intent.getStringExtra("tripTitle");
+        if (tripTitle == null) tripTitle = "Trip";
+
+        // 1) اکتیویتی شفافِ کارت را باز کن (همیشه)
+        Intent overlay = new Intent(context, AlarmActivity.class);
+        overlay.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        overlay.putExtra("tripTitle", tripTitle);
+        context.startActivity(overlay);
+
+        // 2) به‌علاوه نوتیف سیستم هم بفرست (برای تاریخچه)
         sendNotification(context, tripTitle);
     }
 
@@ -22,25 +32,20 @@ public class AlarmReceiver extends BroadcastReceiver {
         String channelId = "default";
         String channelName = "Trip Notifications";
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    channelId,
-                    channelName,
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            notificationManager.createNotificationChannel(channel);
+            NotificationChannel ch = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+            nm.createNotificationChannel(ch);
         }
 
         Notification notification = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_bell) // آیکن تک‌رنگ
                 .setContentTitle("Reminder: " + title)
                 .setContentText("You have a trip tomorrow!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .build();
 
-        notificationManager.notify(0, notification);
+        nm.notify(1001, notification);
     }
 }
