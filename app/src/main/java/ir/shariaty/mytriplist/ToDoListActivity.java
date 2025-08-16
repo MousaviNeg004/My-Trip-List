@@ -132,8 +132,8 @@ public class ToDoListActivity extends AppCompatActivity {
             // حذف از لیست و UI
             items.remove(item);
             itemsLayout.removeView(row);
-            // اگر می‌خوای همین‌جا هم ذخیره بشه (اختیاری):
-            // saveToPrefs();
+
+
         });
 
         row.addView(cb);
@@ -162,7 +162,7 @@ public class ToDoListActivity extends AppCompatActivity {
         items.addAll(newList);
     }
 
-    /** رفتن به منوی اصلی */
+
     private void goToMainActivity2() {
         Intent intent = new Intent(ToDoListActivity.this, MainActivity2.class);
         startActivity(intent);

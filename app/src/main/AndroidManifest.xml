@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.shariaty.mytriplist">
 
-    <!-- فقط برای انتخاب عکس از گالری لازم است -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:targetApi="33" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -25,12 +24,10 @@
         android:theme="@style/Theme.MyTripList"
         tools:targetApi="31">
 
-        <!-- کانال پیش‌فرض FCM (اگر از Messaging استفاده می‌کنی) -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <!-- سرویس پیام‌رسان فایربیس (اگر لازم داری نگه‌دار) -->
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="true">
@@ -39,7 +36,6 @@
             </intent-filter>
         </service>
 
-        <!-- اکتیویتی‌ها -->
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,7 +56,6 @@
             android:turnScreenOn="true" />
         <activity android:name=".GoogleSignInActivity" android:theme="@style/GoogleSignInDialogTheme" />
 
-        <!-- دریافت‌کننده آلارم -->
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
