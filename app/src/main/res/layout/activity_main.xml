@@ -18,7 +18,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Sign Up Button -->
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="373dp"
@@ -32,9 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/backgroundImage" />
 
-    <!-- Sign In Button -->
 
-    <!-- Sign In with Google Button -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="373dp"

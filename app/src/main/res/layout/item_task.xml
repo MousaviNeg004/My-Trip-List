@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Title -->
         <TextView
             android:id="@+id/taskTitleText"
             android:layout_width="wrap_content"
@@ -22,7 +21,6 @@
             android:textStyle="bold"
             android:textSize="18sp" />
 
-        <!-- Start Date -->
         <TextView
             android:id="@+id/taskDateText"
             android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
-        <!-- Travel Image (new added) -->
         <ImageView
             android:id="@+id/taskImage"
             android:layout_width="120dp"
@@ -41,7 +38,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_placeholder" />
 
-        <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +45,6 @@
             android:gravity="end"
             android:layout_marginTop="4dp">
 
-            <!-- Edit Button -->
             <Button
                 android:id="@+id/edit_button"
                 android:layout_width="wrap_content"
@@ -58,7 +53,6 @@
                 android:backgroundTint="@color/pink"
                 android:textColor="@android:color/white" />
 
-            <!-- Delete Button -->
             <Button
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"

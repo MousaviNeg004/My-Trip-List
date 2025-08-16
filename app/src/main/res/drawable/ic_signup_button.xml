@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FF79F6" /> <!-- صورتی دلخواه -->
+            <solid android:color="#FF79F6" />
             <corners android:radius="16dp" />
             <padding
                 android:left="16dp"

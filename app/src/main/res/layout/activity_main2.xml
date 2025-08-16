@@ -5,7 +5,6 @@
     android:padding="16dp"
     android:background="@color/pink_background">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -17,7 +16,6 @@
         android:layout_marginTop="80dp"
         android:fontFamily="@font/vazir" />
 
-    <!-- Trip List Button -->
     <Button
         android:id="@+id/tripListButton"
         android:layout_width="300dp"
@@ -43,7 +41,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 
-    <!-- LogOut Button (کوچک‌تر، پایینِ چپ) -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="120dp"
