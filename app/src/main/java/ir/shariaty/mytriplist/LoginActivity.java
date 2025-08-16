@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if (parts.length == 2 && parts[1].equals(password)) {
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                // شروع صفحه بعد از ورود موفق:
                 startActivity(new Intent(LoginActivity.this, MainActivity2.class));
                 finish();
             } else {

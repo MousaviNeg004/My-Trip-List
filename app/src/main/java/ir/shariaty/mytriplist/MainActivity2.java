@@ -34,11 +34,9 @@ public class MainActivity2 extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // رفتن به صفحه‌ی اصلی (MainActivity) هنگام LogOut
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity2.this, MainActivity.class);
             startActivity(intent);
-            // اگر نمی‌خواهی با دکمه Back برگردی به این صفحه، خط زیر را هم فعال کن:
             // finish();
         });
     }

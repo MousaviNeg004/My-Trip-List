@@ -69,7 +69,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.TaskVi
             holder.taskImage.setImageResource(R.drawable.ic_placeholder);
         }
 
-        // از position لحظه‌ای استفاده کن
         holder.deleteButton.setOnClickListener(v -> {
             if (listener == null) return;
             int pos = holder.getBindingAdapterPosition();

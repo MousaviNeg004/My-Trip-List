@@ -20,7 +20,6 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
     @Override public void onActivityStarted(Activity activity) { started++; }
     @Override public void onActivityStopped(Activity activity)  { stopped++; }
 
-    // غیرضروری‌ها
     @Override public void onActivityCreated(Activity a, Bundle b) {}
     @Override public void onActivityResumed(Activity a) {}
     @Override public void onActivityPaused(Activity a) {}

@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
         // دکمه ثبت‌نام (هدایت به صفحه ثبت‌نام)
         btnSignUp.setOnClickListener(v -> {
-            // هدایت به صفحه ثبت‌نام
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class); // صفحه جداگانه برای ثبت‌نام
             startActivity(intent);
         });
@@ -39,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // متد ورود با گوگل (برای آینده)
+
     private void signInWithGoogle() {
-        // اینجا کد مربوط به ورود با گوگل قرار می‌گیرد
-        // برای ورود با گوگل، باید از GoogleSignInClient استفاده کنید و پس از احراز هویت، به Firebase متصل شوید.
     }
 }

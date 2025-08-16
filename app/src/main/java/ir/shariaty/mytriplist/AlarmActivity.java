@@ -14,10 +14,8 @@ public class AlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // اکتیویتی شفاف که روی HomeActivity نمایش داده می‌شود
         super.onCreate(savedInstanceState);
 
-        // روی لاک‌اسکرین هم بالا بیاد و صفحه روشن بشه
         if (Build.VERSION.SDK_INT >= 27) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
@@ -35,7 +33,6 @@ public class AlarmActivity extends AppCompatActivity {
         tvTitle.setText("Reminder: " + tripTitle);
         tvMsg.setText("You have a trip tomorrow! Did you pack everything?");
 
-        // انیمیشن تکان خوردن زنگ
         ObjectAnimator wobble = ObjectAnimator.ofFloat(bell, "rotation", -15f, 15f);
         wobble.setDuration(300);
         wobble.setRepeatMode(ValueAnimator.REVERSE);

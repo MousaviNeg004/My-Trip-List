@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-// ====== imports اضافه برای آلارم دقیق و زمان ======
 import android.provider.Settings;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -43,7 +42,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-// ================================================
 
 public class ItemTaskActivity extends AppCompatActivity {
 
@@ -114,7 +112,6 @@ public class ItemTaskActivity extends AppCompatActivity {
         alarmTimeEditText.setOnClickListener(v -> showTimePickerDialog());
 
         saveTaskButton.setOnClickListener(v -> {
-            // *** هیچ تغییری در ذخیره‌ی تصویر نداده‌ام ***
             String imagePathToSave = loadedImageUrl;
             if (imageUri != null) {
                 String savedPath = saveImageToInternalStorage(imageUri);
@@ -134,7 +131,7 @@ public class ItemTaskActivity extends AppCompatActivity {
         });
     }
 
-    // ---------- بقیه‌ی متدهای قبلی‌ات بدون تغییر ----------
+
     private void pickImageWithPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
@@ -227,7 +224,7 @@ public class ItemTaskActivity extends AppCompatActivity {
     }
     // ------------------------------------------------------
 
-    /** اگر لازم باشد، کاربر را به صفحه‌ی Allow exact alarms می‌برد */
+
     private boolean ensureExactAlarmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12+
             AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -242,7 +239,7 @@ public class ItemTaskActivity extends AppCompatActivity {
         return true;
     }
 
-    /** آلارم = دقیقا یک روز قبل از زمان سفر (تاریخ از startDate و ساعت از alarmTime) */
+
     private void setAlarmOneDayBefore(String alarmTime) {
         try {
             String dateStr = startDateEditText.getText().toString().trim();
@@ -251,7 +248,6 @@ public class ItemTaskActivity extends AppCompatActivity {
                 return;
             }
 
-            // تاریخ با الگوی d-M-uuuu مثل 13-8-2025
             DateTimeFormatter df = DateTimeFormatter.ofPattern("d-M-uuuu");
             LocalDate date = LocalDate.parse(dateStr, df);
 
@@ -319,3 +315,4 @@ public class ItemTaskActivity extends AppCompatActivity {
         }
     }
 }
+

@@ -112,11 +112,9 @@ public class HomeActivity extends AppCompatActivity {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(HomeActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();
-                    // در صورت تمایل می‌تونی دوباره از سرور تازه کنی:
                     // fetchTasksFromFirebase();
                 })
                 .addOnFailureListener(e -> {
-                    // برگرداندن آیتم در صورت خطا
                     todoList.add(position, task);
                     adapter.notifyItemInserted(position);
                     Toast.makeText(HomeActivity.this, "Error deleting task", Toast.LENGTH_SHORT).show();

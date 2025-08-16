@@ -48,18 +48,14 @@ public class ToDoListActivity extends AppCompatActivity {
         saveCheckedButton = findViewById(R.id.saveCheckedButton);
         itemsLayout       = findViewById(R.id.itemsLayout);
 
-        // فونت ورودی
         Typeface typeface = ResourcesCompat.getFont(this, R.font.vazir);
         if (typeface != null) newItemEditText.setTypeface(typeface);
 
-        // SharedPreferences
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // لودِ محلی و ساخت UI
         loadFromPrefs();
         rebuildUIFromItems();
 
-        // افزودن آیتم
         addItemButton.setOnClickListener(v -> {
             String txt = newItemEditText.getText().toString().trim();
             if (txt.isEmpty()) {
@@ -72,9 +68,7 @@ public class ToDoListActivity extends AppCompatActivity {
             newItemEditText.setText(""); // پاک کردن ورودی
         });
 
-        // ذخیره‌ی همه‌ی وضعیت‌ها و بازگشت
         saveCheckedButton.setOnClickListener(v -> {
-            // برای اطمینان: وضعیت UI را دوباره در لیست sync کن
             syncListFromUI();
             saveToPrefs();
             Toast.makeText(this, "All changes saved", Toast.LENGTH_SHORT).show();
@@ -82,7 +76,7 @@ public class ToDoListActivity extends AppCompatActivity {
         });
     }
 
-    /** از SharedPreferences آیتم‌ها را لود می‌کند */
+
     private void loadFromPrefs() {
         String json = prefs.getString(KEY_ITEMS, "[]");
         Type type = new TypeToken<List<ToDoItem>>() {}.getType();
@@ -91,13 +85,13 @@ public class ToDoListActivity extends AppCompatActivity {
         if (loaded != null) items.addAll(loaded);
     }
 
-    /** در SharedPreferences ذخیره می‌کند */
+
     private void saveToPrefs() {
         String json = gson.toJson(items);
         prefs.edit().putString(KEY_ITEMS, json).apply();
     }
 
-    /** تمام UI را از روی لیست دوباره می‌سازد */
+
     private void rebuildUIFromItems() {
         itemsLayout.removeAllViews();
         for (ToDoItem item : items) {
@@ -105,7 +99,7 @@ public class ToDoListActivity extends AppCompatActivity {
         }
     }
 
-    /** یک ردیف (چک‌باکس + حذف) به UI اضافه می‌کند و به آیتم bind می‌کند */
+
     private void addItemRow(ToDoItem item) {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
@@ -147,9 +141,9 @@ public class ToDoListActivity extends AppCompatActivity {
         itemsLayout.addView(row);
     }
 
-    /** وضعیت UI را با لیست همگام می‌کند (متن + تیک‌ها) */
+
     private void syncListFromUI() {
-        // متن چک‌باکس‌ها ممکن است تغییر نکرده باشد، ولی برای اطمینان sync می‌کنیم
+
         int childCount = itemsLayout.getChildCount();
         List<ToDoItem> newList = new ArrayList<>();
         for (int i = 0; i < childCount; i++) {

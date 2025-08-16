@@ -16,7 +16,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         String tripTitle = intent.getStringExtra("tripTitle");
         if (tripTitle == null) tripTitle = "Trip";
 
-        // 1) اکتیویتی شفافِ کارت را باز کن (همیشه)
         Intent overlay = new Intent(context, AlarmActivity.class);
         overlay.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -24,7 +23,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         overlay.putExtra("tripTitle", tripTitle);
         context.startActivity(overlay);
 
-        // 2) به‌علاوه نوتیف سیستم هم بفرست (برای تاریخچه)
         sendNotification(context, tripTitle);
     }
 
@@ -39,7 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         Notification notification = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_bell) // آیکن تک‌رنگ
+                .setSmallIcon(R.drawable.ic_bell)
                 .setContentTitle("Reminder: " + title)
                 .setContentText("You have a trip tomorrow!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

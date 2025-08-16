@@ -23,9 +23,8 @@ public class GoogleSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_sign_in);  // اتصال به فایل XML
+        setContentView(R.layout.activity_google_sign_in);
 
-        // انیمیشن سه‌نقطه‌ای
         TextView dots = findViewById(R.id.dots);
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
@@ -41,7 +40,6 @@ public class GoogleSignInActivity extends AppCompatActivity {
         };
         handler.post(runnable);
 
-        // پیکربندی ورود با گوگل
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)) // از google-services.json
                 .requestEmail()
@@ -50,7 +48,6 @@ public class GoogleSignInActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth = FirebaseAuth.getInstance();
 
-        // شروع ورود با گوگل
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -77,7 +74,6 @@ public class GoogleSignInActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // موفقیت‌آمیز: رفتن به ActivityMain2
                         startActivity(new Intent(GoogleSignInActivity.this, MainActivity2.class));
                         finish();
                     } else {
